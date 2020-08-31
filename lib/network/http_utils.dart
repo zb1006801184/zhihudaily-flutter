@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'base_result.dart';
 import 'package:dio/adapter.dart';
 import './api_url.dart';
+import '../unitls/toast_view.dart';
 class HttpUtils {
   /// http request methods
   static const String GET = 'get';
@@ -44,12 +45,12 @@ class HttpUtils {
 
 
     //设置代理
-  (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
-    client.findProxy = (Uri) {
-      // 用1个开关设置是否开启代理
-      return  'PROXY 192.168.3.138:8888';
-    };
-  };
+  // (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
+  //   client.findProxy = (Uri) {
+  //     // 用1个开关设置是否开启代理
+  //     return  'PROXY 192.168.3.138:8888';
+  //   };
+  // };
 
 
 
@@ -143,13 +144,13 @@ class HttpUtils {
     } on DioError catch (e) {
       // formatError(e);
     if (e.response == null) {
-      // ToastView(title: "请求超时，请稍后再试！",).showMessage();
+      ToastView(title: "请求超时，请稍后再试！",).showMessage();
     }else {
       response = e.response;
       String res = response.data;
 
       String messageStr = jsonDecode(res)["resp_msg"];
-      // ToastView(title: messageStr,).showMessage();
+      ToastView(title: messageStr,).showMessage();
     }
       response = null;
     }
