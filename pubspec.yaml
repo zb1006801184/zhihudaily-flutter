@@ -34,7 +34,9 @@ dependencies:
   dio: ^3.0.9
     # 数据持久化
   shared_preferences: ^0.5.8
-
+  # toast
+  fluttertoast: ^7.0.1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
