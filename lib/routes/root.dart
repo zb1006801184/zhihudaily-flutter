@@ -115,16 +115,20 @@ class _RootState extends State<Root> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(left: 16, top: 15),
+                margin: EdgeInsets.only(left: 16, top: 15, right: 16),
                 child: Text(
                   model?.title ?? "标题",
                   style: TextStyle(fontSize: 16),
+                  maxLines: 2,
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(left: 16, top: 0),
-                child: Text(model?.hint ?? "子标题",
-                    style: TextStyle(fontSize: 14, color: Colors.grey)),
+                child: Text(
+                  model?.hint ?? "子标题",
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                  maxLines: 1,
+                ),
               ),
             ],
           )),
