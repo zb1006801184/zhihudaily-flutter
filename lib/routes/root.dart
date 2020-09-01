@@ -3,7 +3,9 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:zhihudaily_flutter/unitls/global.dart';
 import '../unitls/global.dart';
 import '../network/api_service.dart';
-import '../common/common_tool.dart';
+import '../widgets/home_appbar.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+
 class Root extends StatefulWidget {
   @override
   _RootState createState() => _RootState();
@@ -13,17 +15,18 @@ class _RootState extends State<Root> {
   List stories = [];
   List top_stories = [];
   double itemHeight = 80.0;
+  EasyRefreshController controller = EasyRefreshController();
   @override
   void initState() {
     super.initState();
     _requestData();
   }
- 
+
   _requestData() async {
     NewsModel model = await ApiService.getTodayNews();
     setState(() {
-      stories = model.stories;
-      top_stories = model.topStories;
+      stories = model?.stories ?? [];
+      top_stories = model?.topStories ?? [];
     });
   }
 
@@ -39,11 +42,21 @@ class _RootState extends State<Root> {
     Navigator.of(context).pushNamed("/NewsDetail", arguments: model.url);
   }
 
+  _rightAction() {
+    print("setting");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _buildAppBar(),
-        body: CustomScrollView(
+        appBar: HomeAppBar().buildAppBar(_rightAction),
+        body: EasyRefresh.custom(
+          header: MaterialHeader(),
+          footer: MaterialFooter(
+            overScroll:true,
+            enableInfiniteLoad:false,
+          ),
+          controller: controller,
           slivers: [
             //头部banner
             SliverToBoxAdapter(
@@ -68,76 +81,15 @@ class _RootState extends State<Root> {
               itemExtent: itemHeight,
             )
           ],
+          onRefresh: () async {
+            await _requestData();
+            controller.resetRefreshState();
+          },
+          onLoad: () async {
+            await _requestData();
+            controller.resetLoadState();
+          },
         ));
-  }
-
-  //appBar
-  AppBar _buildAppBar() {
-      DateTime nowTime = DateTime.now();
-    
-    return AppBar(
-      actions: [
-        Container(
-          width: Global.ksWidth,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                child: Row(
-                  children: [
-                    Container(
-                      width: 50,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "${nowTime.day}",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          Text(
-                            CommonTool().changeMouth(nowTime.month),
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: 0.3,
-                      height: 35,
-                      color: Colors.grey,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 8),
-                      child: Text(
-                        "知乎日报",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              IconButton(
-                color: Colors.grey,
-                icon: Icon(Icons.settings),
-                onPressed: () => debugPrint('pressed'),
-              ),
-            ],
-          ),
-        )
-      ],
-      backgroundColor: Color(0xFFf4f5f7),
-      elevation: 0,
-      brightness: Brightness.light,
-    );
   }
 
 //轮播图的内容
@@ -192,7 +144,7 @@ class _RootState extends State<Root> {
 
   Widget _buildListItem(BuildContext context, int index) {
     Stories model = stories[index] ?? [];
-    return GestureDetector(
+    return InkWell(
       child: Container(
         height: itemHeight,
         child: Row(

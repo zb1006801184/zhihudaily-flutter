@@ -44,6 +44,9 @@ dependencies:
 
   # webView
   webview_flutter: 0.3.22+1
+
+  # 刷新
+  flutter_easyrefresh: ^2.1.5
   
 dev_dependencies:
   flutter_test:
