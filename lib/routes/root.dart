@@ -53,8 +53,8 @@ class _RootState extends State<Root> {
         body: EasyRefresh.custom(
           header: MaterialHeader(),
           footer: MaterialFooter(
-            overScroll:true,
-            enableInfiniteLoad:false,
+            overScroll: true,
+            enableInfiniteLoad: false,
           ),
           controller: controller,
           slivers: [
@@ -64,7 +64,7 @@ class _RootState extends State<Root> {
                   height: Global.ksHeight / 2,
                   child: Swiper(
                     itemCount: top_stories?.length ?? 0,
-                    autoplay: true,
+                    autoplay: top_stories.length>0?true:false,
                     itemBuilder: (BuildContext context, int index) {
                       return _buildBannerWidget(top_stories[index], index);
                     },
