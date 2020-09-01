@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import './routes/root.dart';
+import 'routes/news_detail.dart';
+
 final routes = {
-    '/root': (context, {arguments}) => Root(),
+  '/root': (context, {arguments}) => Root(),
+  '/NewsDetail': (context, {arguments}) => NewsDetail(),
 };
 
 var onGenerateRoute = (RouteSettings settings) {
