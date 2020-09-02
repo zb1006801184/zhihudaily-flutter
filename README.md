@@ -1,6 +1,6 @@
 # zhihudaily_flutter
 
-A new Flutter project.
+知乎日报-flutter版本
 
 ## Getting Started
 

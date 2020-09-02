@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:zhihudaily_flutter/unitls/global.dart';
+import '../widgets/news_detail_bottom.dart';
 
 class NewsDetail extends StatefulWidget {
   @override
@@ -21,7 +22,6 @@ class _NewsDetailState extends State<NewsDetail> {
 
   @override
   Widget build(BuildContext context) {
-
     String url = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
@@ -32,6 +32,7 @@ class _NewsDetailState extends State<NewsDetail> {
         children: [
           _buildWebView(url),
           _buildBlankWidget(),
+          _buildBottomWidget(),
         ],
       ),
     ));
@@ -67,5 +68,9 @@ class _NewsDetailState extends State<NewsDetail> {
             child: Text(title),
           ),
         ));
+  }
+
+  Widget _buildBottomWidget() {
+    return Positioned(bottom: 0, left: 0, right: 0, child: NewDetailBottom(newCollect: false,newLike: false,));
   }
 }
