@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:zhihudaily_flutter/common/common_tool.dart';
+import 'package:zhihudaily_flutter/state/provider_store.dart';
+import 'package:zhihudaily_flutter/state/them_model.dart';
 import 'package:zhihudaily_flutter/unitls/global.dart';
+import 'package:zhihudaily_flutter/unitls/them_util.dart';
 
 class HomeAppBar {
-  AppBar buildAppBar(Function rightAction) {
+  AppBar buildAppBar(Function rightAction, BuildContext context) {
     DateTime nowTime = DateTime.now();
     return AppBar(
       actions: [
@@ -23,16 +26,17 @@ class HomeAppBar {
                           Text(
                             "${nowTime.day}",
                             style: TextStyle(
-                                color: Colors.black,
                                 fontSize: 18,
-                                fontWeight: FontWeight.w600),
+                                fontWeight: FontWeight.w600,
+                                color: ThemUntil().widgetColor(context)),
                           ),
                           Text(
                             CommonTool().changeMouth(nowTime.month),
                             style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w400),
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400,
+                              color: ThemUntil().widgetColor(context),
+                            ),
                           ),
                         ],
                       ),
@@ -47,9 +51,10 @@ class HomeAppBar {
                       child: Text(
                         "知乎日报",
                         style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: ThemUntil().widgetColor(context),
+                        ),
                       ),
                     )
                   ],
@@ -68,7 +73,9 @@ class HomeAppBar {
           ),
         )
       ],
-      backgroundColor: Color(0xFFf4f5f7),
+      backgroundColor: Store.value<ThemModel>(context).getThemeModel()
+          ? Colors.black
+          : Color(0xFFf4f5f7),
       elevation: 0,
       brightness: Brightness.light,
     );

@@ -13,11 +13,7 @@ class MyApp extends StatelessWidget {
       routes: routes,
       themeMode: Store.value<ThemModel>(context).getThemeModel()?ThemeMode.dark : ThemeMode
                     .light,
-      // theme: ThemeData(
-      //   brightness: Brightness.dark,
-      //   primaryColor: Colors.black,
-      //   accentColor: Colors.cyan[600],
-      // ),
+      darkTheme: ThemUntil().darktData,
     );
   }
 }

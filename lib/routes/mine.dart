@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:zhihudaily_flutter/state/provider_store.dart';
+import 'package:zhihudaily_flutter/state/them_model.dart';
 import '../unitls/nav_bar_config.dart';
 import '../unitls/global.dart';
+import '../unitls/sp_util.dart';
+import '../unitls/them_util.dart';
 
 class Mine extends StatefulWidget {
   @override
@@ -8,18 +12,27 @@ class Mine extends StatefulWidget {
 }
 
 class _MineState extends State<Mine> {
-
-
+  bool isDarkModel = SpUtil.getBool(ThemUntil.THEMSTATE) ?? false;
 //点击收藏和消息
-  _itemClick({String title}){
-    Navigator.of(context).pushNamed("/MineMessage",arguments: title);
+  _itemClick({String title}) {
+    Navigator.of(context).pushNamed("/MineMessage", arguments: title);
+  }
+
+  //点击设置和黑夜模式
+  _modelAndSetClick({int index}) {
+    if (index == 0) {
+      setState(() {
+        isDarkModel = !isDarkModel;
+        Store.value<ThemModel>(context,listen: false).changetThemModel();
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: NavBarConfig().configAppBar("", context),
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       body: Container(
         width: Global.ksWidth,
         height: Global.ksHeight,
@@ -80,54 +93,60 @@ class _MineState extends State<Mine> {
   Widget _buildItem({String title}) {
     return InkWell(
       child: Container(
-      height: 48,
-      width: Global.ksWidth,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            margin: EdgeInsets.only(left: 16),
-            child: Text(
-              title,
-              style: TextStyle(fontSize: 16),
+        height: 48,
+        width: Global.ksWidth,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 16),
+              child: Text(
+                title,
+                style: TextStyle(fontSize: 16),
+              ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.only(
-              right: 16,
+            Container(
+              margin: EdgeInsets.only(
+                right: 16,
+              ),
+              child: Icon(
+                Icons.keyboard_arrow_right,
+                color: Color(0xFFf4f5f7),
+              ),
             ),
-            child: Icon(
-              Icons.keyboard_arrow_right,
-              color: Color(0xFFf4f5f7),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-    onTap: (){
-    _itemClick(title: title);
-    },
+      onTap: () {
+        _itemClick(title: title);
+      },
     );
   }
 
   Widget _buildBottomWidget() {
-    Widget _buildIcon({String title, String icon}) {
-      return Container(
-        width: 65,
-        height: 65,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Image(
-              image: AssetImage(icon),
-              height: 40,
-              width: 40,
-            ),
-            Container(
-              child: Text(title),
-            ),
-          ],
+    Widget _buildIcon({String title, String icon, int index}) {
+      return GestureDetector(
+        child: Container(
+          width: 65,
+          height: 65,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image(
+                image: AssetImage(icon),
+                height: 40,
+                width: 40,
+                color: ThemUntil().iconColor(context),
+              ),
+              Container(
+                child: Text(title),
+              ),
+            ],
+          ),
         ),
+        onTap: () {
+          _modelAndSetClick(index: index);
+        },
       );
     }
 
@@ -136,8 +155,11 @@ class _MineState extends State<Mine> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildIcon(title: '夜间模式', icon: 'images/mine_night.png'),
-          _buildIcon(title: '设置', icon: 'images/mine_setting.png'),
+          _buildIcon(
+              title: isDarkModel ? '日间模式' : '夜间模式',
+              icon: 'images/mine_night.png',
+              index: 0),
+          _buildIcon(title: '设置', icon: 'images/mine_setting.png', index: 1),
         ],
       ),
     );

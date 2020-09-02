@@ -50,7 +50,7 @@ class _RootState extends State<Root> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: HomeAppBar().buildAppBar(_rightAction),
+        appBar: HomeAppBar().buildAppBar(_rightAction,context),
         body: EasyRefresh.custom(
           header: MaterialHeader(),
           footer: MaterialFooter(

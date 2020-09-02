@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:zhihudaily_flutter/state/provider_store.dart';
+import 'package:zhihudaily_flutter/state/them_model.dart';
+import 'package:zhihudaily_flutter/unitls/them_util.dart';
 
 class NavBarConfig {
   AppBar configAppBar(String title,BuildContext context) {
@@ -7,10 +10,10 @@ class NavBarConfig {
         title,
         style: TextStyle(color: Colors.black, fontSize: 16),
       ),
-      leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: Colors.black,), onPressed: (){
+      leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: Store.value<ThemModel>(context).getThemeModel()?Colors.white:Colors.black,), onPressed: (){
         Navigator.pop(context);
       }),
-      backgroundColor: Colors.white,
+      backgroundColor: Store.value<ThemModel>(context).getThemeModel()?Colors.black:Colors.white,
       elevation: 0, //阴影辐射范围
       brightness: Brightness.light,
     );
@@ -48,7 +51,7 @@ class NavBarConfig {
             color: Colors.black, fontSize: 17, fontWeight: FontWeight.w600),
       ),
       leading: _buildLeadingWidget(),
-      backgroundColor: Colors.white,
+      backgroundColor: Store.value<ThemModel>(context).getThemeModel()?Colors.black:Colors.white,
       elevation: 0, //阴影辐射范围
       brightness: Brightness.light,
     );
