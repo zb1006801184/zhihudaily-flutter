@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class NavBarConfig {
-  AppBar configAppBar(String title) {
+  AppBar configAppBar(String title,BuildContext context) {
     return AppBar(
       title: Text(
         title,
         style: TextStyle(color: Colors.black, fontSize: 16),
       ),
-      leading: Text(''),
-      backgroundColor: Color(0xFFf4f5f7),
+      leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: Colors.black,), onPressed: (){
+        Navigator.pop(context);
+      }),
+      backgroundColor: Colors.white,
       elevation: 0, //阴影辐射范围
       brightness: Brightness.light,
     );

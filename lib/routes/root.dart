@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:zhihudaily_flutter/common/common_tool.dart';
 import 'package:zhihudaily_flutter/unitls/global.dart';
 import '../unitls/global.dart';
 import '../network/api_service.dart';
@@ -43,7 +44,7 @@ class _RootState extends State<Root> {
   }
 
   _rightAction() {
-    print("setting");
+    Navigator.of(context).pushNamed("/Mine");
   }
 
   @override
@@ -64,7 +65,7 @@ class _RootState extends State<Root> {
                   height: Global.ksHeight / 2,
                   child: Swiper(
                     itemCount: top_stories?.length ?? 0,
-                    autoplay: top_stories.length>0?true:false,
+                    autoplay: top_stories.length > 0 ? true : false,
                     itemBuilder: (BuildContext context, int index) {
                       return _buildBannerWidget(top_stories[index], index);
                     },
@@ -101,21 +102,27 @@ class _RootState extends State<Root> {
       child: Stack(
         alignment: AlignmentDirectional.bottomStart,
         children: [
-          Opacity(
-            opacity: 0.3,
-            child: Container(
-              height: 100,
-              color: Colors.black,
-            ),
-          ),
           Container(
             height: 100,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+              colors: [
+                Color(CommonTool.getColorFromHex(model.imageHue)),
+                Colors.transparent
+              ],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+            )),
+          ),
+          Container(
+            height: 120,
             padding: EdgeInsets.only(top: 5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: 20),
+                  margin: EdgeInsets.only(left: 20, bottom: 8),
                   child: Text(
                     model?.title ?? "轮播图标题",
                     style: TextStyle(
@@ -125,7 +132,7 @@ class _RootState extends State<Root> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 20, top: 8),
+                  margin: EdgeInsets.only(left: 20, bottom: 20),
                   child: Text(
                     model?.hint ?? "作者",
                     style: TextStyle(

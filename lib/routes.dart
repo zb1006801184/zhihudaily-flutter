@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import './routes/root.dart';
 import 'routes/news_detail.dart';
+import 'routes/mine.dart';
+import 'routes/mine_message.dart';
 
 final routes = {
   '/root': (context, {arguments}) => Root(),
   '/NewsDetail': (context, {arguments}) => NewsDetail(),
+  '/Mine': (context, {arguments}) => Mine(),
+  '/MineMessage': (context, {arguments}) => MineMessage(),
 };
 
 var onGenerateRoute = (RouteSettings settings) {

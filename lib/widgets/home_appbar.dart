@@ -57,7 +57,11 @@ class HomeAppBar {
               ),
               IconButton(
                 color: Colors.grey,
-                icon: Icon(Icons.settings),
+                icon: Image(
+                  image: AssetImage("images/mine_head.png"),
+                  width: 30,
+                  height: 30,
+                ),
                 onPressed: rightAction,
               ),
             ],
