@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zhihudaily_flutter/routes/news_detail.dart';
+import 'package:zhihudaily_flutter/state/provider_store.dart';
+import 'package:zhihudaily_flutter/state/them_model.dart';
+import 'package:zhihudaily_flutter/unitls/them_util.dart';
 import '../unitls/global.dart';
 import '../unitls/toast_view.dart';
 class NewDetailBottom extends StatefulWidget {
@@ -37,7 +40,7 @@ class _NewDetailBottomState extends State<NewDetailBottom> {
   Widget build(BuildContext context) {
     return Container(
         height: Global.ksBottomBar + 20,
-        color: Color(0xFFf4f5f7),
+        color: ThemUntil().mainColor(context),
         child: Column(
           children: [
             Container(
@@ -76,6 +79,7 @@ class _NewDetailBottomState extends State<NewDetailBottom> {
                 width: 20,
                 height: 20,
                 fit: BoxFit.fill,
+                color: ThemUntil().widgetColor(context),
               ),
             ),
             Padding(
@@ -100,7 +104,7 @@ class _NewDetailBottomState extends State<NewDetailBottom> {
       child: Row(
         children: [
           IconButton(
-              icon: Icon(Icons.arrow_back_ios),
+              icon: Icon(Icons.arrow_back_ios,color: ThemUntil().widgetColor(context),),
               onPressed: () {
                 Navigator.of(context).pop();
               }),
@@ -108,7 +112,7 @@ class _NewDetailBottomState extends State<NewDetailBottom> {
             margin: EdgeInsets.only(right: 20),
             height: 25,
             width: 1,
-            color: Colors.grey,
+            color: ThemUntil().widgetColor(context),
           ),
           _buildIconWithNumWidget(0,
               nums: '6', icon: 'images/detail_comment.png'),
