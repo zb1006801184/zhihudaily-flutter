@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:zhihudaily_flutter/unitls/global.dart';
 import 'package:zhihudaily_flutter/unitls/them_util.dart';
@@ -16,14 +17,18 @@ class _NewsDetailState extends State<NewsDetail> {
       Completer<WebViewController>();
   WebView web;
   bool complete = false;
+  String url;
   @override
   void initState() {
     super.initState();
   }
-
+//分享
+    shareClick() {
+      Share.share(url);
+    }
   @override
   Widget build(BuildContext context) {
-    String url = ModalRoute.of(context).settings.arguments;
+     url = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
         body: Container(
@@ -86,6 +91,7 @@ class _NewsDetailState extends State<NewsDetail> {
         child: NewDetailBottom(
           newCollect: false,
           newLike: false,
+          shareClick: shareClick,
         ));
   }
 }

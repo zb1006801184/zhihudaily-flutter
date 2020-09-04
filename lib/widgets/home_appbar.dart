@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:zhihudaily_flutter/common/common_tool.dart';
-import 'package:zhihudaily_flutter/state/provider_store.dart';
-import 'package:zhihudaily_flutter/state/them_model.dart';
 import 'package:zhihudaily_flutter/unitls/global.dart';
 import 'package:zhihudaily_flutter/unitls/them_util.dart';
 

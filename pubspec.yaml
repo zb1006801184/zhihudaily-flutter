@@ -48,8 +48,11 @@ dependencies:
   # 刷新
   flutter_easyrefresh: ^2.1.5
 
-  #共享状态管理
+  # 共享状态管理
   provider: 4.3.2+1
+
+  # 分享
+  share: ^0.6.5
   
 dev_dependencies:
   flutter_test:

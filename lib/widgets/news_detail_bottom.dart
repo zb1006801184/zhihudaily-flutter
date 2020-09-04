@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:zhihudaily_flutter/routes/news_detail.dart';
-import 'package:zhihudaily_flutter/state/provider_store.dart';
-import 'package:zhihudaily_flutter/state/them_model.dart';
 import 'package:zhihudaily_flutter/unitls/them_util.dart';
 import '../unitls/global.dart';
 import '../unitls/toast_view.dart';
 class NewDetailBottom extends StatefulWidget {
   bool newLike = false;
   bool newCollect = false;
+  Function shareClick;
   NewDetailBottom({
     this.newLike,
     this.newCollect,
+    this.shareClick,
   });
   @override
   _NewDetailBottomState createState() => _NewDetailBottomState();
@@ -31,7 +30,7 @@ class _NewDetailBottomState extends State<NewDetailBottom> {
       });
     }
     if (index == 3) {
-      
+      widget.shareClick();
     }
 
   }
