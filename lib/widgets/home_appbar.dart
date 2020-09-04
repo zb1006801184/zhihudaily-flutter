@@ -73,11 +73,9 @@ class HomeAppBar {
           ),
         )
       ],
-      backgroundColor: Store.value<ThemModel>(context).getThemeModel()
-          ? Colors.black
-          : Color(0xFFf4f5f7),
+      backgroundColor: ThemUntil().mainColor(context),
       elevation: 0,
-      brightness: Brightness.light,
+      brightness: ThemUntil().stateBarColor(context),
     );
   }
 }

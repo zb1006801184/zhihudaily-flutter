@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:zhihudaily_flutter/unitls/global.dart';
+import 'package:zhihudaily_flutter/unitls/them_util.dart';
 import '../widgets/news_detail_bottom.dart';
 
 class NewsDetail extends StatefulWidget {
@@ -56,6 +57,9 @@ class _NewsDetailState extends State<NewsDetail> {
   }
 
   Widget _buildBlankWidget() {
+    if (complete) {
+      return Container();
+    }
     String title;
     complete == false ? title = "加载中。。。" : title = "";
     return Positioned(
@@ -64,6 +68,10 @@ class _NewsDetailState extends State<NewsDetail> {
         child: Container(
           height: Global.ksHeight,
           width: Global.ksWidth,
+          decoration: BoxDecoration(
+            color:
+                complete ? Colors.transparent : ThemUntil().webBGColor(context),
+          ),
           child: Center(
             child: Text(title),
           ),
@@ -71,6 +79,13 @@ class _NewsDetailState extends State<NewsDetail> {
   }
 
   Widget _buildBottomWidget() {
-    return Positioned(bottom: 0, left: 0, right: 0, child: NewDetailBottom(newCollect: false,newLike: false,));
+    return Positioned(
+        bottom: 0,
+        left: 0,
+        right: 0,
+        child: NewDetailBottom(
+          newCollect: false,
+          newLike: false,
+        ));
   }
 }

@@ -13,9 +13,9 @@ class NavBarConfig {
       leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: Store.value<ThemModel>(context).getThemeModel()?Colors.white:Colors.black,), onPressed: (){
         Navigator.pop(context);
       }),
-      backgroundColor: Store.value<ThemModel>(context).getThemeModel()?Colors.black:Colors.white,
+      backgroundColor: ThemUntil().mainColor(context),
       elevation: 0, //阴影辐射范围
-      brightness: Brightness.light,
+      brightness: ThemUntil().stateBarColor(context),
     );
   }
 

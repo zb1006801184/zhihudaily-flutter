@@ -14,15 +14,23 @@ class ThemUntil {
 
 //主题背景颜色
   Color mainColor(BuildContext context) {
-    return Store.value<ThemModel>(context).getThemeModel()?Colors.black:Color(0xFFF4F5F7);
+    return Store.value<ThemModel>(context).getThemeModel()?Color(0xFF121212):Color(0xFFF4F5F7);
   }
   //部分widget颜色
   Color widgetColor(BuildContext context) {
-    return Store.value<ThemModel>(context).getThemeModel()?Color(0xFFF4F5F7):Colors.black;
+    return Store.value<ThemModel>(context).getThemeModel()?Color(0xFFF4F5F7):Color(0xFF121212);
   }
   //部分图标颜色
   Color iconColor(BuildContext context) {
     return Store.value<ThemModel>(context).getThemeModel()?Colors.grey:null;
   }
 
+  //状态栏
+  Brightness stateBarColor(BuildContext context) {
+        return Store.value<ThemModel>(context).getThemeModel()?Brightness.dark:Brightness.light;
+  }
+  //加载web蒙版背景颜色
+  Color webBGColor(BuildContext context){
+    return Store.value<ThemModel>(context).getThemeModel()?Color(0xFF121212):Colors.transparent;
+  }
 }
