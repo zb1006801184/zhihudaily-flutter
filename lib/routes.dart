@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import './routes/root.dart';
+import 'routes/root.dart';
 import 'routes/news_detail.dart';
 import 'routes/mine.dart';
 import 'routes/mine_message.dart';
 import 'routes/news_comment.dart';
+import 'routes/commen_write.dart';
 
 final routes = {
   '/root': (context, {arguments}) => Root(),
@@ -11,6 +12,7 @@ final routes = {
   '/Mine': (context, {arguments}) => Mine(),
   '/MineMessage': (context, {arguments}) => MineMessage(),
   '/NewsComment': (context, {arguments}) => NewsComment(),
+  '/CommenWrite': (context, {arguments}) => CommenWrite(),
 };
 
 var onGenerateRoute = (RouteSettings settings) {

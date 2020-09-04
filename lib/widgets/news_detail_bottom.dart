@@ -19,7 +19,7 @@ class _NewDetailBottomState extends State<NewDetailBottom> {
   //点击图片
   _iconClick(int index) {
     if (index == 0) {
-      
+      Navigator.of(context).pushNamed("/NewsComment");
     }
     if (index == 1) {
       ToastView(title: '点赞成功',).showMessage();
@@ -114,7 +114,7 @@ class _NewDetailBottomState extends State<NewDetailBottom> {
             color: ThemUntil().widgetColor(context),
           ),
           _buildIconWithNumWidget(0,
-              nums: '6', icon: 'images/detail_comment.png'),
+              nums: '1', icon: 'images/detail_comment.png'),
         ],
       ),
     );
