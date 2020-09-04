@@ -33,4 +33,10 @@ class ThemUntil {
   Color webBGColor(BuildContext context){
     return Store.value<ThemModel>(context).getThemeModel()?Color(0xFF121212):Colors.transparent;
   }
+  //评论底部颜色
+  Color commentBottomColor(BuildContext context) {
+    return Store.value<ThemModel>(context).getThemeModel()?Color(0xFF181818):Color(0xFFF4F5F7);
+  }
+
+
 }

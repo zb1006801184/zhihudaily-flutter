@@ -5,29 +5,45 @@ import 'package:zhihudaily_flutter/unitls/them_util.dart';
 
 class NavBarConfig {
   //默认导航栏样式
-  AppBar configAppBar(String title,BuildContext context) {
+  AppBar configAppBar(String title, BuildContext context) {
     return AppBar(
       title: Text(
         title,
         style: TextStyle(color: ThemUntil().widgetColor(context), fontSize: 18),
       ),
-      leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: Store.value<ThemModel>(context).getThemeModel()?Colors.white:Colors.black,), onPressed: (){
-        Navigator.pop(context);
-      }),
+      leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Store.value<ThemModel>(context).getThemeModel()
+                ? Colors.white
+                : Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          }),
       backgroundColor: ThemUntil().mainColor(context),
       elevation: 0, //阴影辐射范围
       brightness: ThemUntil().stateBarColor(context),
     );
   }
-  AppBar configCommenWriteAppBar(String title,BuildContext context,List actions) {
+
+  AppBar configCommenWriteAppBar(
+      String title, BuildContext context, List actions) {
     return AppBar(
       title: Text(
         title,
         style: TextStyle(color: ThemUntil().widgetColor(context), fontSize: 18),
       ),
-      leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: Store.value<ThemModel>(context).getThemeModel()?Colors.white:Colors.black,), onPressed: (){
-        Navigator.pop(context);
-      }),
+      leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Store.value<ThemModel>(context).getThemeModel()
+                ? Colors.white
+                : Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          }),
       backgroundColor: ThemUntil().mainColor(context),
       elevation: 0, //阴影辐射范围
       brightness: ThemUntil().stateBarColor(context),
@@ -67,7 +83,9 @@ class NavBarConfig {
             color: Colors.black, fontSize: 17, fontWeight: FontWeight.w600),
       ),
       leading: _buildLeadingWidget(),
-      backgroundColor: Store.value<ThemModel>(context).getThemeModel()?Colors.black:Colors.white,
+      backgroundColor: Store.value<ThemModel>(context).getThemeModel()
+          ? Colors.black
+          : Colors.white,
       elevation: 0, //阴影辐射范围
       brightness: Brightness.light,
     );

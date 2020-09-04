@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zhihudaily_flutter/unitls/global.dart';
+import 'package:zhihudaily_flutter/unitls/them_util.dart';
 import '../unitls/nav_bar_config.dart';
 
 class NewsComment extends StatefulWidget {
@@ -165,7 +166,7 @@ class _NewsCommentState extends State<NewsComment> {
       child: Container(
         height: Global.ksBottomBar + 20,
         width: Global.ksWidth,
-        color: Color(0XFFebebeb),
+        color: ThemUntil().commentBottomColor(context),
         padding: EdgeInsets.only(left: 10, top: 10),
         child: Column(
           children: [
