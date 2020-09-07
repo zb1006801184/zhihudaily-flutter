@@ -26,6 +26,9 @@ class _MineState extends State<Mine> {
         Store.value<ThemModel>(context,listen: false).changetThemModel();
       });
     }
+    if (index == 1) {
+      Navigator.of(context).pushNamed('/SettingPage');
+    }
   }
 
   @override

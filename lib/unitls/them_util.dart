@@ -38,5 +38,8 @@ class ThemUntil {
     return Store.value<ThemModel>(context).getThemeModel()?Color(0xFF181818):Color(0xFFF4F5F7);
   }
 
-
+  //白色/黑色
+Color settingColor(BuildContext context) {
+    return Store.value<ThemModel>(context).getThemeModel()?Color(0xFF181818):Colors.white;
+  }
 }

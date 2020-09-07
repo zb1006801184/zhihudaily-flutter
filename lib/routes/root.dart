@@ -6,6 +6,7 @@ import '../unitls/global.dart';
 import '../network/api_service.dart';
 import '../widgets/home_appbar.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Root extends StatefulWidget {
   @override
@@ -50,7 +51,7 @@ class _RootState extends State<Root> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: HomeAppBar().buildAppBar(_rightAction,context),
+        appBar: HomeAppBar().buildAppBar(_rightAction, context),
         body: EasyRefresh.custom(
           header: MaterialHeader(),
           footer: MaterialFooter(
@@ -181,19 +182,17 @@ class _RootState extends State<Root> {
               ],
             )),
             Container(
-              margin: EdgeInsets.only(right: 16),
-              width: 55,
-              height: 55,
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(2),
-                image: DecorationImage(
-                    image: NetworkImage(
-                      model?.images[0] ?? "",
-                    ),
-                    fit: BoxFit.fill),
-              ),
-            )
+                margin: EdgeInsets.only(right: 16),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: CachedNetworkImage(
+                    width: 55,
+                    height: 55,
+                    imageUrl: model?.images[0]??'',
+                    placeholder: (context, url) => Image.asset('images/placeholder_img.png'),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
+                ))
           ],
         ),
       ),

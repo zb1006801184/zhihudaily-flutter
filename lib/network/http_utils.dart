@@ -138,8 +138,6 @@ class HttpUtils {
               options: Options(method: method)),
           onReceiveProgress: (int count, int total) {},
           onSendProgress: (int count, int total) {
-        // debugPrint(
-        //     'onSendProgress: ${(count / total * 100).toStringAsFixed(0)} %');
       }, cancelToken: cancelToken);
     } on DioError catch (e) {
       // formatError(e);

@@ -5,6 +5,7 @@ import 'routes/mine.dart';
 import 'routes/mine_message.dart';
 import 'routes/news_comment.dart';
 import 'routes/commen_write.dart';
+import 'routes/setting_page.dart';
 
 final routes = {
   '/root': (context, {arguments}) => Root(),
@@ -13,6 +14,7 @@ final routes = {
   '/MineMessage': (context, {arguments}) => MineMessage(),
   '/NewsComment': (context, {arguments}) => NewsComment(),
   '/CommenWrite': (context, {arguments}) => CommenWrite(),
+  '/SettingPage': (context, {arguments}) => SettingPage(),
 };
 
 var onGenerateRoute = (RouteSettings settings) {
