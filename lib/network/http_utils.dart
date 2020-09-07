@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:zhihudaily_flutter/unitls/platform_unitls.dart';
 import 'base_result.dart';
 import 'package:dio/adapter.dart';
 import './api_url.dart';
 import '../unitls/toast_view.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
+
 class HttpUtils {
   /// http request methods
   static const String GET = 'get';
@@ -17,10 +20,6 @@ class HttpUtils {
 
   Dio get dio => _dio;
 
-
-
-
-
   HttpUtils({String baseUrl: ApiUrl.BASE_URL, Map<String, dynamic> headers}) {
     debugPrint('dio赋值=====$baseUrl');
 
@@ -28,6 +27,7 @@ class HttpUtils {
     BaseOptions options = BaseOptions(
       /// 请求基地址,可以包含子路径，如: "https://www.google.com/api/".
       baseUrl: baseUrl,
+
       /// 连接服务器超时时间，单位是毫秒.
       connectTimeout: 15000,
 
@@ -38,21 +38,18 @@ class HttpUtils {
       responseType: ResponseType.plain,
 
       /// Http请求头.
-      headers: headers??{"Content-Type": "application/x-www-form-urlencoded"},
+      headers: headers ?? {"Content-Type": "application/x-www-form-urlencoded"},
     );
 
     _dio = Dio(options);
 
-
     //设置代理
-  // (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
-  //   client.findProxy = (Uri) {
-  //     // 用1个开关设置是否开启代理
-  //     return  'PROXY 192.168.3.138:8888';
-  //   };
-  // };
-
-
+    // (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
+    //   client.findProxy = (Uri) {
+    //     // 用1个开关设置是否开启代理
+    //     return  'PROXY 192.168.3.138:8888';
+    //   };
+    // };
 
     /// 添加拦截器
     _dio.interceptors
@@ -99,6 +96,9 @@ class HttpUtils {
         responseHeader: false,
         requestHeader: false,
       ));
+    PlatformUtils.isWeb??
+        _dio.interceptors.add(
+            DioCacheManager(CacheConfig(baseUrl: ApiUrl.BASE_URL)).interceptor);
   }
 
   /// Make http request with options.
@@ -132,26 +132,30 @@ class HttpUtils {
           /// 请求路径，如果 `path` 以 "http(s)"开始, 则 `baseURL` 会被忽略； 否则, 将会和baseUrl拼接出完整的的url.
           path,
           data: data,
-          queryParameters: method == GET?data:null,
-          options: Options(method: method),
-          onReceiveProgress: (int count, int total) {
-        // debugPrint(
-        //     'onReceiveProgress: ${(count / total * 100).toStringAsFixed(0)} %');
-      }, onSendProgress: (int count, int total) {
+          queryParameters: method == GET ? data : null,
+          // options: Options(method: method),
+          options: PlatformUtils.isWeb?Options(method: method):buildCacheOptions(Duration(days: 7),
+              options: Options(method: method)),
+          onReceiveProgress: (int count, int total) {},
+          onSendProgress: (int count, int total) {
         // debugPrint(
         //     'onSendProgress: ${(count / total * 100).toStringAsFixed(0)} %');
       }, cancelToken: cancelToken);
     } on DioError catch (e) {
       // formatError(e);
-    if (e.response == null) {
-      ToastView(title: "请求超时，请稍后再试！",).showMessage();
-    }else {
-      response = e.response;
-      String res = response.data;
+      if (e.response == null) {
+        ToastView(
+          title: "请求超时，请稍后再试！",
+        ).showMessage();
+      } else {
+        response = e.response;
+        String res = response.data;
 
-      String messageStr = jsonDecode(res)["resp_msg"];
-      ToastView(title: messageStr,).showMessage();
-    }
+        String messageStr = jsonDecode(res)["resp_msg"];
+        ToastView(
+          title: messageStr,
+        ).showMessage();
+      }
       response = null;
     }
 
@@ -197,9 +201,10 @@ class HttpUtils {
     try {
       response = await Dio(
         BaseOptions(
-            baseUrl: baseUrl, connectTimeout: 15000, receiveTimeout: 15000,
-            ),
-
+          baseUrl: baseUrl,
+          connectTimeout: 15000,
+          receiveTimeout: 15000,
+        ),
       ).post(
         "$path",
         data: data,
@@ -378,7 +383,3 @@ class HttpUtils {
     }
   }
 }
-
-
-
-
