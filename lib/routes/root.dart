@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:zhihudaily_flutter/common/common_tool.dart';
 import 'package:zhihudaily_flutter/unitls/global.dart';
+import 'package:zhihudaily_flutter/unitls/them_util.dart';
 import '../unitls/global.dart';
 import '../network/api_service.dart';
+import '../unitls/global.dart';
+import '../unitls/global.dart';
 import '../widgets/home_appbar.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -17,6 +20,7 @@ class _RootState extends State<Root> {
   List stories = [];
   List top_stories = [];
   double itemHeight = 80.0;
+  DateTime timeDay = DateTime.now().add(Duration(days: 1));
   EasyRefreshController controller = EasyRefreshController();
   @override
   void initState() {
@@ -26,10 +30,38 @@ class _RootState extends State<Root> {
 
   _requestData() async {
     NewsModel model = await ApiService.getTodayNews();
+    timeDay = DateTime.now().add(Duration(days: 1));
+    stories.clear();
     setState(() {
-      stories = model?.stories ?? [];
+      stories.addAll(model?.stories ?? []);
       top_stories = model?.topStories ?? [];
     });
+  }
+
+  _requestBeforeDayData() async {
+    timeDay = timeDay.add(Duration(days: -1));
+
+    NewsModel model =
+        await ApiService.getBeforeDayNews(int.parse(_changeDate(timeDay)));
+    stories.add(model?.date);
+    setState(() {
+      stories = stories + model?.stories;
+    });
+  }
+
+  String _changeDate(DateTime timeDay) {
+    String tem = '${timeDay.year}';
+    if (timeDay.month < 10) {
+      tem = tem + '0' + '${timeDay.month}';
+    } else {
+      tem = tem + '${timeDay.month}';
+    }
+    if (timeDay.day < 10) {
+      tem = tem + '0' + '${timeDay.day}';
+    } else {
+      tem = tem + '${timeDay.day}';
+    }
+    return tem;
   }
 
   //轮播图的点击
@@ -88,7 +120,7 @@ class _RootState extends State<Root> {
             controller.resetRefreshState();
           },
           onLoad: () async {
-            await _requestData();
+            await _requestBeforeDayData();
             controller.resetLoadState();
           },
         ));
@@ -151,7 +183,26 @@ class _RootState extends State<Root> {
   }
 
   Widget _buildListItem(BuildContext context, int index) {
-    Stories model = stories[index] ?? [];
+    var model = stories[index] ?? [];
+    if (model is String) {
+      return Container(
+        width: Global.ksWidth,
+        child: Row(
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 16),
+              child: Text('${model.substring(4,6)}'+'月'+'${model.substring(6,8)}'+'日'),
+            ),
+            Expanded(
+                child: Container(
+              margin: EdgeInsets.only(left: 16, right: 16),
+              color: ThemUntil().widgetColor(context),
+              height: 0.2,
+            ))
+          ],
+        ),
+      );
+    }
     return InkWell(
       child: Container(
         height: itemHeight,
@@ -188,8 +239,9 @@ class _RootState extends State<Root> {
                   child: CachedNetworkImage(
                     width: 55,
                     height: 55,
-                    imageUrl: model?.images[0]??'',
-                    placeholder: (context, url) => Image.asset('images/placeholder_img.png'),
+                    imageUrl: model?.images[0] ?? '',
+                    placeholder: (context, url) =>
+                        Image.asset('images/placeholder_img.png'),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ))

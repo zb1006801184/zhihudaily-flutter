@@ -19,4 +19,20 @@ class ApiService {
       return null;
     }
   }
+
+static Future<NewsModel> getBeforeDayNews(int day) async {
+    Response response =
+        await HttpUtils().request('${ApiUrl.BEFORETODAYNEWS_URL}'+'/'+'${day}', method: HttpUtils.GET);
+    if (response != null) {
+      var responseData = jsonDecode(response.data);
+      if (responseData == null) {
+        return null;
+      }
+      return NewsModel.fromJson(responseData);
+    } else {
+      return null;
+    }
+  }
+
+
 }
